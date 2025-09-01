@@ -45,5 +45,19 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Favorite Places App needs access to your photo library so you can select and save pictures of your favorite places.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Favorite Places App needs access to your camera so you can take pictures of your favorite places.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Favorite Places App needs access to your microphone to record sound while capturing videos of your favorite places.</string>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Favorite Places App needs access to your location while using the app to let you save your current place as a favorite.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Favorite Places App needs access to your location even in the background so you can save and revisit your favorite places anytime.</string>
+
+
 </dict>
 </plist>

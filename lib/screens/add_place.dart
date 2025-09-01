@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:favorite_places/models/place.dart';
+import 'package:favorite_places/providers/user_places.dart';
+import 'package:favorite_places/widgets/image_input.dart';
+import 'package:favorite_places/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:favorite_places/providers/user_places.dart';
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
@@ -14,15 +18,19 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 
 class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _titleController = TextEditingController();
+  File? image;
+  PlaceLocation? location;
 
   void _savePlace() {
     final enteredTitle = _titleController.text;
 
-    if (enteredTitle.isEmpty) {
+    if (enteredTitle.isEmpty || image == null || location == null) {
       return;
     }
 
-    ref.read(userPlacesProvider.notifier).addPlace(enteredTitle);
+    ref
+        .read(userPlacesProvider.notifier)
+        .addPlace(enteredTitle, image!, location!);
 
     Navigator.of(context).pop();
   }
@@ -36,12 +44,11 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add new Place'),
-      ),
+      appBar: AppBar(title: const Text('Add new Place')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Column(
+          spacing: 15,
           children: [
             TextField(
               decoration: const InputDecoration(labelText: 'Title'),
@@ -50,7 +57,19 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            const SizedBox(height: 16),
+
+            ImageInput(
+              onImagePicked: (file) {
+                image = file;
+              },
+            ),
+
+            LocationInput(
+              onLocationPicked: (locationPicked) {
+                location = locationPicked;
+              },
+            ),
+
             ElevatedButton.icon(
               onPressed: _savePlace,
               icon: const Icon(Icons.add),
